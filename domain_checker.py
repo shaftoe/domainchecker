@@ -9,23 +9,21 @@ class Domain:
     """Domain(str "domainname")
     It is meant to give access to whois database in a object-oriented way
     Interface:
-    is_expired() - boolean: return yes if domain is EXPIRED
-    getkind() - string: tells what kind of domain it is (.com, .org, etc)
-    setkind(str "kind") - sets the domain kind
-    getdomainname() - str: returns the domain name"""
+    isExpired() - boolean: return yes if domain is EXPIRED
+    """
+    
+    alloweddomains = ("com", "info", "it", "org", "net", "biz")
 
-    __alloweddomains__ = ("com", "info", "it", "org", "net", "biz")
-
-    def checkdomainname(self, domainname):
-        """checkdomainname(self, domainname):
+    def checkDomainName(self, domainname):
+        """checkDomainName(self, domainname):
         return a boolean, true if domain is syntactically correct
         Unfortunately for now works just with secondLevel domains..."""
         splitteddomain = domainname.split(".")
-        if len(splitteddomain) != 2 or splitteddomain[1] not in self.__alloweddomains__:
+        if len(splitteddomain) != 2 or splitteddomain[1] not in self.alloweddomains:
             return False
         return True
 
-    def whoisresponse(self, domainname):
+    def whoisResponse(self, domainname):
         """Query the whois database via "whois" command end returns a list
         with lines"""
         try:
@@ -36,15 +34,15 @@ class Domain:
         return r.stdout.readlines()
 
 
-    def is_expired(self, domainname=""):
-        """is_expired() - boolean: return yes if domain is EXPIRED"""
+    def isExpired(self, domainname=""):
+        """isExpired() - boolean: return yes if domain is EXPIRED"""
         if domainname == "":
             print "no domain defined"
             return False
         # need to query the whois at this stage
-        if self.checkdomainname(domainname):
+        if self.checkDomainName(domainname):
             splitteddomain = domainname.split(".")
-            test = self.whoisresponse(domainname)
+            test = self.whoisResponse(domainname)
             if splitteddomain[1] in ("com","net"):
                 if test[7][0:12] == "No match for" :
                     print "%s is EXPIRED" % domainname
@@ -68,6 +66,6 @@ for domainzonefiles in os.listdir("."):
     if os.path.isfile(domainzonefiles) and domainextention == zonefileextention:
         domainname = domainzonefiles[:-3]
         print "\nFound domain zonefile %s" % domainzonefiles
-        d.is_expired(domainname)
+        d.isExpired(domainname)
         time.sleep(5)
 print "\nDone"
