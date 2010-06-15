@@ -44,16 +44,19 @@ class Domain:
         # need to query the whois at this stage
         if self.checkDomainName(domainname):
             splitteddomain = domainname.split(".")
-            test = self.whoisResponse(domainname)
-            if splitteddomain[1] in ("com","net"):
-                if test[7][0:12] == "No match for" :
-                    return True
-            if splitteddomain[1] in ("org", "info", "biz"):
-                if test[0][0:9].upper() == "NOT FOUND":
-                    return True
-            if splitteddomain[1] == "it":
-                if test[1][20:29] == "AVAILABLE":
-                    return True
+            try:
+                test = self.whoisResponse(domainname)
+                if splitteddomain[1] in ("com","net"):
+                    if test[7][0:12] == "No match for" :
+                        return True
+                if splitteddomain[1] in ("org", "info", "biz"):
+                    if test[0][0:9].upper() == "NOT FOUND":
+                        return True
+                if splitteddomain[1] == "it":
+                    if test[1][20:29] == "AVAILABLE":
+                        return True
+            except IndexError:
+                print "IndexError... maybe connection timeout for whois?"
         else:
             print "%s domain not valid" % domainname
         return False
