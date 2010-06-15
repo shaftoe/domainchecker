@@ -36,6 +36,5 @@ def checkArgumentsValidity(directory,fileextension):
        raise OSError, "Directory %s doesn't exist" % directory
     if len(fileextension) == 1:
         raise TypeError, "Extension %s is not valid" % fileextension
-    if len(fileextension) != 0:
-        if fileextension[0:1] != "." :
+    if len(fileextension) != 0 and fileextension[0:1] != "." :
             raise TypeError, "Extension %s is not valid. Needs to start with a dot." % fileextension
