@@ -4,6 +4,7 @@ This is used to check expired domains from every file with given extention
 in a given directory 
 """
 import os.path
+import sys
 import time
 from Domain import Domain
 
@@ -37,4 +38,15 @@ def checkArgumentsValidity(directory,fileextension):
     if len(fileextension) == 1:
         raise TypeError, "Extension %s is not valid" % fileextension
     if len(fileextension) != 0 and fileextension[0:1] != "." :
-            raise TypeError, "Extension %s is not valid. Needs to start with a dot." % fileextension
+        raise TypeError, "Extension %s is not valid. Needs to start with a dot." % fileextension
+
+def checkCliArguments():
+    if len(sys.argv) < 2 or len(sys.argv) > 3:
+        print "Not enough arguments.\nSyntax: python %s <directory> [<extension>]\n" % sys.argv[0]
+        return
+    if len(sys.argv) == 2:
+        scanDirectory(sys.argv[1])
+    if len(sys.argv) == 3:
+        scanDirectory(sys.argv[1],sys.argv[2])
+
+checkCliArguments()
