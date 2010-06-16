@@ -34,11 +34,14 @@ def scanDirectory(directory, fileextension=""):
 
 def checkArgumentsValidity(directory,fileextension):
     if not os.path.exists(directory):
-       raise OSError, "Directory %s doesn't exist" % directory
+       print "Directory %s doesn't exist\n" % directory
+       quit()
     if len(fileextension) == 1:
-        raise TypeError, "Extension %s is not valid" % fileextension
+        print "Extension %s is not valid\n" % fileextension
+        quit()
     if len(fileextension) != 0 and fileextension[0:1] != "." :
-        raise TypeError, "Extension %s is not valid. Needs to start with a dot." % fileextension
+        print "Extension %s is not valid. Needs to start with a dot.\n" % fileextension
+        quit()
 
 def checkCliArguments():
     if len(sys.argv) < 2 or len(sys.argv) > 3:
@@ -48,5 +51,5 @@ def checkCliArguments():
         scanDirectory(sys.argv[1])
     if len(sys.argv) == 3:
         scanDirectory(sys.argv[1],sys.argv[2])
-
+        
 checkCliArguments()
