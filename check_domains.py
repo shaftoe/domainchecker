@@ -1,8 +1,8 @@
-#/usr/bin/env python
+#!/usr/bin/env python
 """Script to make the Domain class actually usable.
 This is used to check expired domains from every file with given extention
-in a given directory 
-"""
+in a given directory """
+
 import os.path
 import sys
 import time
